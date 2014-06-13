@@ -14,13 +14,10 @@ nodist_pkgconfig_DATA	= meta/scripts/libcephes.pc
 
 ## --------------------------------------------------------------------
 
-# AM_MAKEINFOFLAGS	= --no-split
+AM_MAKEINFOFLAGS	= --no-split
 
-# info_TEXINFOS		= doc/cephes.texi
-# doc_cephes_TEXINFOS	= \
-# 	doc/macros.texi		\
-# 	doc/gpl-3.0.texi	\
-# 	doc/fdl-1.3.texi
+info_TEXINFOS		= doc/cephes.texi
+doc_cephes_TEXINFOS	= doc/macros.texi
 
 #page
 #### libraries
@@ -35,6 +32,7 @@ lib_LTLIBRARIES		= libcephes.la
 libcephes_la_LDFLAGS	= -version-info $(cephes_CURRENT):$(cephes_REVISION):$(cephes_AGE)
 libcephes_la_LIBADD	= $(MATH_LIBS)
 libcephes_la_SOURCES	= \
+	src/cephes-version.c		\
 	src/custom/isfinite.c		\
 	\
 	src/cmath/chbevl.c		\
@@ -232,6 +230,7 @@ EXTRA_DIST	+= \
 #### tests
 
 check_PROGRAMS	= \
+	tests/version		\
 	tests/beta
 
 TESTS				= $(check_PROGRAMS)
@@ -241,6 +240,9 @@ cephes_tests_ldadd		= libcephes.la
 
 tests_beta_CPPFLAGS		= $(cephes_tests_cppflags)
 tests_beta_LDADD		= $(cephes_tests_ldadd)
+
+tests_version_CPPFLAGS		= $(cephes_tests_cppflags)
+tests_version_LDADD		= $(cephes_tests_ldadd)
 
 installcheck-local: $(TESTS)
 	@for f in $(TESTS); do $(builddir)/$$f; done

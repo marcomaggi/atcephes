@@ -111,6 +111,16 @@ typedef struct
 
 
 /** --------------------------------------------------------------------
+ ** Version functions.
+ ** ----------------------------------------------------------------- */
+
+cephes_decl const char *cephes_version_string			(void);
+cephes_decl int		cephes_version_interface_current	(void);
+cephes_decl int		cephes_version_interface_revision	(void);
+cephes_decl int		cephes_version_interface_age		(void);
+
+
+/** --------------------------------------------------------------------
  ** Function prototypes.
  ** ----------------------------------------------------------------- */
 

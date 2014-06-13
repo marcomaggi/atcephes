@@ -1,0 +1,958 @@
+\input texinfo.tex
+@c %**start of header
+@setfilename cephes.info
+@settitle ATCephes
+@c %**end of header
+
+@include version.texi
+@include macros.texi
+
+@c page
+@c ------------------------------------------------------------
+@c Values.
+@c ------------------------------------------------------------
+
+@set TITLE                      Cephes under @acronym{GNU} Autotools
+
+@c To be used as @value{PACKAGE} whenever we need to include the full
+@c name of this package.
+@set PACKAGE                    ATCephes
+
+@c To be used as @value{PACKAGE} whenever we need to include the
+@c nickname of the project: the name that is used to compose the
+@c distribution tarball or the web address.
+@set PACKAGE_NICKNAME           atcephes
+
+@c To be used as @value{AUTHOR} whenever we need to include the list of
+@c authors of this document.
+@set AUTHOR                     Marco Maggi
+
+@c To be used as @value{AUTHOR_EMAIL} whenever we need to include the
+@c email of the *single* author of this document.
+@set AUTHOR_EMAIL               @email{marco.maggi-ipsu@@poste.it}
+
+@c To be used as @value{COPYRIGHT_YEARS} whenever we need to include the
+@c list of copyright years.
+@set COPYRIGHT_YEARS            2014
+
+@c page
+@c ------------------------------------------------------------
+@c Copyright notice.
+@c ------------------------------------------------------------
+
+@copying
+This document describes version @value{VERSION} of @value{PACKAGE}, a
+redistribution of Cephes: a collection of mathematical routines for
+scientific and engineering applications.
+
+@noindent
+Copyright @copyright{} by Stephen L. Moshier @email{moshier@@na-net.ornl.gov}
+
+@quotation
+Some software in this archive may be from the book ``Methods and
+Programs for Mathematical Functions'' (Prentice--Hall or Simon &
+Schuster International, 1989) or from the Cephes Mathematical Library, a
+commercial product.  In either event, it is copyrighted by the author.
+What you see here may be used freely but it comes with no support or
+guarantee.
+@end quotation
+@end copying
+
+@c page
+@c ------------------------------------------------------------
+@c Headers.
+@c ------------------------------------------------------------
+
+@titlepage
+@title @value{TITLE}
+@subtitle Revision @value{VERSION}
+@author @value{AUTHOR} @value{AUTHOR_EMAIL}
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c ------------------------------------------------------------
+
+@ifinfo
+@dircategory Development
+@direntry
+* atcephes: (atcephes).       @value{TITLE}.
+@end direntry
+@end ifinfo
+
+@c ------------------------------------------------------------
+
+@ignore
+@syncodeindex tp cp
+@syncodeindex vr cp
+@syncodeindex fn cp
+@end ignore
+
+@c page
+@ifnottex
+@node Top
+@top @value{TITLE}
+
+@insertcopying
+
+@menu
+* overview::                    Overview of the package.
+* version::                     Version functions.
+* cmath::                       Module @code{cmath}.
+* bessel::                      Module @code{bessel}.
+* cprob::                       Module @code{cprob}.
+* ellf::                        Module @code{ellf}.
+* ieee::                        Module @code{ieee}.
+* misc::                        Module @code{misc}.
+* polyn::                       Module @code{polyn}.
+
+Appendices
+
+* resources::                   On--line resources.
+* references::                  Bibliography and references.
+
+Indexes
+
+* concept index::               An entry for each concept.
+* function index::              An entry for each function.
+* variable index::              An entry for each variable.
+* type index::                  An entry for each type.
+@end menu
+@end ifnottex
+
+@c page
+@node overview
+@chapter Overview of the package
+
+
+This document describes version @value{VERSION} of @value{PACKAGE}, a
+redistribution of Cephes: a collection of mathematical routines for
+scientific and engineering applications.
+
+This package installs a single header file @file{cephes.h}.
+
+@menu
+* overview linking::            Linking code with the library.
+@end menu
+
+@c page
+@node overview linking
+@section Linking code with the library
+
+
+This package installs a data file for @command{pkg-config}, so when
+searching for the installed library with the @gnu{} Autotools, we can:
+
+@itemize
+@item
+Install the file @file{pkg.m4} from @file{/usr/share/aclocal} into the
+source tree of the package, for example under @file{meta/autoconf/}.
+
+@item
+Include @file{pkg.m4} in the template by adding the following line to
+@file{acinclude.m4}:
+
+@example
+m4_include(meta/autoconf/pkg.m4)
+@end example
+
+@item
+Just add the following macro use to @file{configure.ac}:
+
+@example
+PKG_CHECK_MODULES([ATCEPHES],[atcephes >= 0.1])
+@end example
+
+@noindent
+which will set the variables @code{ATCEPHES_LIBS} and
+@code{ATCEPHES_CFLAGS}.
+@end itemize
+
+Alternatively we can use the raw @gnu{} Autoconf macros:
+
+@example
+AC_CHECK_LIB([atcephes],[beta],,
+  [AC_MSG_FAILURE([test for Atcephes library failed])])
+AC_CHECK_HEADERS([cephes.h],,
+  [AC_MSG_FAILURE([test for Atcephes header failed])])
+@end example
+
+@c page
+@node version
+@chapter Version functions
+
+
+The installed libraries follow version numbering as established by the
+@gnu{} Autotools.  For an explanation of interface numbers as managed by
+@gnu{} Libtool @xref{Libtool versioning, interface, Libtool's versioning
+system, libtool, Shared library support for @gnu{}}.
+
+
+@deftypefun {const char *} cephes_version_string (void)
+Return a pointer to a statically allocated @asciiz{} string representing
+the interface version number.
+@end deftypefun
+
+
+@deftypefun int cephes_version_interface_current (void)
+Return an integer representing the library interface current number.
+@end deftypefun
+
+
+@deftypefun int cephes_version_interface_revision (void)
+Return an integer representing the library interface current revision
+number.
+@end deftypefun
+
+
+@deftypefun int cephes_version_interface_age (void)
+Return an integer representing the library interface current age.
+@end deftypefun
+
+@c page
+@node cmath
+@chapter Module @code{cmath}
+
+
+@deftypefun double chbevl (double @var{x}, double @var{array}[], double @var{n})
+@end deftypefun
+
+
+@deftypefun int drand (double * @var{a})
+@end deftypefun
+
+
+@deftypefun double polevl (double @var{x}, double @var{coef}[], int @var{N})
+@end deftypefun
+
+
+@deftypefun double p1evl (double @var{x}, double @var{coef}[], int @var{N})
+@end deftypefun
+
+
+@deftypefun double powi (double @var{x}, int @var{nn})
+@end deftypefun
+
+
+@deftypefun double sindg (double @var{x})
+@end deftypefun
+
+
+@deftypefun double tandg (double @var{x})
+@end deftypefun
+
+
+@deftypefun double cotdg (double @var{x})
+@end deftypefun
+
+@c page
+@node bessel
+@chapter Module @code{bessel}
+
+
+@deftypefun int airy (double @var{x}, double * @var{ai}, double * @var{aip}, double * @var{bi}, double * @var{bip})
+@end deftypefun
+
+
+@deftypefun double hyp2f1 (double @var{a}, double @var{b}, double @var{c}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double hyperg (double @var{a}, double @var{b}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double i0 (double @var{x})
+@end deftypefun
+
+
+@deftypefun double i0e (double @var{x})
+@end deftypefun
+
+
+@deftypefun double i1 (double @var{x})
+@end deftypefun
+
+
+@deftypefun double i1e (double @var{x})
+@end deftypefun
+
+
+@deftypefun double iv (double @var{v}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double jv (double @var{n}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double k0 (double @var{x})
+@end deftypefun
+
+
+@deftypefun double k0e (double @var{x})
+@end deftypefun
+
+
+@deftypefun double k1 (double @var{x})
+@end deftypefun
+
+
+@deftypefun double k1e (double @var{x})
+@end deftypefun
+
+
+@deftypefun double kn (int @var{nn}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double psi (double @var{x})
+@end deftypefun
+
+
+@deftypefun double struve (double @var{v}, double @var{x})
+@end deftypefun
+
+@c page
+@node cprob
+@chapter Module @code{cprob}
+
+
+@deftypefun double bdtr (int @var{k}, int @var{n}, double @var{p})
+@end deftypefun
+
+
+@deftypefun double bdtrc (int @var{k}, int @var{n}, double @var{p})
+@end deftypefun
+
+
+@deftypefun double bdtri (int @var{k}, int @var{n}, double @var{y})
+@end deftypefun
+
+
+@deftypefun double btdtr (double @var{a}, double @var{b}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double chdtrc (double @var{df}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double chdtr (double @var{df}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double chdtri (double @var{df}, double @var{y})
+@end deftypefun
+
+
+@deftypefun double expx2 (double @var{x}, int @var{sign})
+@end deftypefun
+
+
+@deftypefun double fdtr (int @var{ia}, int @var{ib}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double fdtrc (int @var{ia}, int @var{ib}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double fdtri (int @var{ia}, int @var{ib}, double @var{y})
+@end deftypefun
+
+
+@deftypefun double gamma (double @var{x})
+@end deftypefun
+
+
+@deftypefun double lgam (double @var{x})
+@end deftypefun
+
+
+@deftypefun double gdtr (double @var{a}, double @var{b}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double gdtrc (double @var{a}, double @var{b}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double igam (double @var{a}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double igamc (double @var{a}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double igami (double @var{a}, double @var{y0})
+@end deftypefun
+
+
+@deftypefun double incbet (double @var{aa}, double @var{bb}, double @var{xx})
+@end deftypefun
+
+
+@deftypefun double incbi (double @var{aa}, double @var{bb}, double @var{yy0})
+@end deftypefun
+
+
+@deftypefun double kolmogorov (double @var{y})
+@end deftypefun
+
+
+@deftypefun double nbdtr (int @var{k}, int @var{n}, double @var{p})
+@end deftypefun
+
+
+@deftypefun double nbdtrc (int @var{k}, int @var{n}, double @var{p})
+@end deftypefun
+
+
+@deftypefun double nbdtri (int @var{k}, int @var{n}, double @var{p})
+@end deftypefun
+
+
+@deftypefun double ndtr (double @var{a})
+@end deftypefun
+
+
+@deftypefun double erfc (double @var{a})
+@end deftypefun
+
+
+@deftypefun double erf (double @var{x})
+@end deftypefun
+
+
+@deftypefun double ndtri (double @var{y0})
+@end deftypefun
+
+
+@deftypefun double pdtr (int @var{k}, double @var{m})
+@end deftypefun
+
+
+@deftypefun double pdtrc (int @var{k}, double @var{m})
+@end deftypefun
+
+
+@deftypefun double pdtri (int @var{k}, double @var{y})
+@end deftypefun
+
+
+@deftypefun double stdtr (int @var{k}, double @var{t})
+@end deftypefun
+
+
+@deftypefun double stdtri (int @var{k}, double @var{p})
+@end deftypefun
+
+@c page
+@node ellf
+@chapter Module @code{ellf}
+
+
+@deftypefun double ellie (double @var{phi}, double @var{m})
+@end deftypefun
+
+
+@deftypefun double ellik (double @var{phi}, double @var{m})
+@end deftypefun
+
+
+@deftypefun double ellpe (double @var{x})
+@end deftypefun
+
+
+@deftypefun int ellpj (double @var{u}, double @var{m}, double * @var{sn}, double * @var{cn}, double * @var{dn}, double * @var{ph})
+@end deftypefun
+
+
+@deftypefun double ellpk (double @var{x})
+@end deftypefun
+
+@c page
+@node ieee
+@chapter Module @code{ieee}
+
+
+@deftypefun void eclear (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void emov (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun void eabs (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun void eneg (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun int eisneg (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun int eisinf (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun int eisnan (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun void einfin (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void emovi (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun void emovo (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun void ecleaz (unsigned short * @var{xi})
+@end deftypefun
+
+
+@deftypefun void ecleazs (unsigned short * @var{xi})
+@end deftypefun
+
+
+@deftypefun void emovz (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun int eiisnan (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun int ecmpm (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun void eshdn1 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eshup1 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eshdn8 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eshup8 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eshup6 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eshdn6 (unsigned short * @var{x})
+@end deftypefun
+
+
+@deftypefun void eaddm (unsigned short * @var{x}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void esubm (unsigned short * @var{x}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun int edivm (unsigned short @var{den}[], unsigned short @var{num}[])
+@end deftypefun
+
+
+@deftypefun int emulm (unsigned short @var{a}[], unsigned short @var{b}[])
+@end deftypefun
+
+
+@deftypefun void emdnorm (unsigned short @var{s}, int @var{lost}, int @var{subflg}, long @var{exp}, int @var{rcntrl})
+@end deftypefun
+
+
+@deftypefun void esub (unsigned short * @var{a}, unsigned short * @var{b}, unsigned short * @var{c})
+@end deftypefun
+
+
+@deftypefun void eadd (unsigned short * @var{a}, unsigned short * @var{b}, unsigned short * @var{c})
+@end deftypefun
+
+
+@deftypefun void eadd1 (unsigned short * @var{a}, unsigned short * @var{b}, unsigned short * @var{c})
+@end deftypefun
+
+
+@deftypefun void ediv (unsigned short * @var{a}, unsigned short * @var{b}, unsigned short * @var{c})
+@end deftypefun
+
+
+@deftypefun void emul (unsigned short * @var{a}, unsigned short * @var{b}, unsigned short * @var{c})
+@end deftypefun
+
+
+@deftypefun void e53toe (unsigned short * @var{pe}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void e64toe (unsigned short * @var{pe}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void e113toe (unsigned short * @var{pe}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void e24toe (unsigned short * @var{pe}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void etoe113 (unsigned short * @var{x}, unsigned short * @var{e})
+@end deftypefun
+
+
+@deftypefun void etoe64 (unsigned short * @var{x}, unsigned short * @var{e})
+@end deftypefun
+
+
+@deftypefun void etoe53 (unsigned short * @var{x}, unsigned short * @var{e})
+@end deftypefun
+
+
+@deftypefun void etoe24 (unsigned short * @var{x}, unsigned short * @var{e})
+@end deftypefun
+
+
+@deftypefun int ecmp (unsigned short * @var{a}, unsigned short * @var{b})
+@end deftypefun
+
+
+@deftypefun void eround (unsigned short * @var{x}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void ltoe (long * @var{lp}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void ultoe (unsigned long * @var{lp}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void eifrac (unsigned short * @var{x}, long * @var{i}, unsigned short * @var{frac})
+@end deftypefun
+
+
+@deftypefun void euifrac (unsigned short * @var{x}, unsigned long * @var{i}, unsigned short * @var{frac})
+@end deftypefun
+
+
+@deftypefun int eshift (unsigned short * @var{x}, int @var{sc})
+@end deftypefun
+
+
+@deftypefun int enormlz (unsigned short @var{x}[])
+@end deftypefun
+
+
+@deftypefun void e24toasc (unsigned short @var{x}[], char * @var{string}, int ndigs)
+@end deftypefun
+
+
+@deftypefun void e53toasc (unsigned short @var{x}[], char * @var{string}, int ndigs)
+@end deftypefun
+
+
+@deftypefun void e64toasc (unsigned short @var{x}[], char * @var{string}, int ndigs)
+@end deftypefun
+
+
+@deftypefun void e113toasc (unsigned short @var{x}[], char * @var{string}, int ndigs)
+@end deftypefun
+
+
+@deftypefun void etoasc (unsigned short @var{x}[], char * @var{string}, int ndigs)
+@end deftypefun
+
+
+@deftypefun void asctoe24 (char * @var{s}, unsigned short *@var{y} )
+@end deftypefun
+
+
+@deftypefun void asctoe53 (char * @var{s}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void asctoe64 (char * @var{s}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void asctoe113 (char * @var{s}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void asctoe (char * @var{s}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void asctoeg (char * @var{ss}, unsigned short * @var{y}, int oprec)
+@end deftypefun
+
+
+@deftypefun void efloor (unsigned short @var{x}[], unsigned short @var{y}[])
+@end deftypefun
+
+
+@deftypefun void efrexp (unsigned short @var{x}[], long * @var{exp}, unsigned short @var{s}[])
+@end deftypefun
+
+
+@deftypefun void eldexp (unsigned short @var{x}[], long @var{pwr2}, unsigned short @var{y}[])
+@end deftypefun
+
+
+@deftypefun void eremain (unsigned short @var{a}[], unsigned short @var{b}[], unsigned short @var{c}[])
+@end deftypefun
+
+
+@deftypefun void eiremain (unsigned short @var{den}[], unsigned short @var{num}[])
+@end deftypefun
+
+
+@deftypefun void enan (unsigned short * @var{nan}, int @var{size})
+@end deftypefun
+
+
+@deftypefun void esqrt (short * @var{x}, short * @var{y})
+@end deftypefun
+
+
+@deftypefun void eexp (unsigned short * @var{x}, unsigned short * @var{y})
+@end deftypefun
+
+
+@deftypefun void epow (unsigned short * @var{x}, unsigned short * @var{y}, unsigned short * @var{z})
+@end deftypefun
+
+
+@deftypefun void epowi (unsigned short @var{x}[], unsigned short @var{y}[], unsigned short z[])
+@end deftypefun
+
+
+@deftypefun void etodec (unsigned short * @var{x}, unsigned short * @var{d})
+@end deftypefun
+
+
+@deftypefun void dectoe (unsigned short * @var{d}, unsigned short * @var{e})
+@end deftypefun
+
+@c page
+@node misc
+@chapter Module @code{misc}
+
+
+@deftypefun double beta (double @var{a}, double @var{b})
+@end deftypefun
+
+
+@deftypefun double dawsn (double @var{xx})
+@end deftypefun
+
+
+@deftypefun double ei (double @var{x})
+@end deftypefun
+
+
+@deftypefun double expn (int @var{n}, double @var{x})
+@end deftypefun
+
+
+@deftypefun double fac (int @var{i})
+@end deftypefun
+
+
+@deftypefun int fresnl (double @var{xxa}, double * @var{ssa}, double * @var{cca})
+@end deftypefun
+
+
+@deftypefun double plancki (double @var{w}, double @var{T})
+@end deftypefun
+
+
+@deftypefun double polylog (int @var{n}, double @var{x})
+@end deftypefun
+
+
+@deftypefun void revers (double @var{y}[], double @var{x}[], int @var{n})
+@end deftypefun
+
+
+@deftypefun double rgamma (double @var{x})
+@end deftypefun
+
+
+@deftypefun int shichi (double @var{x}, double * @var{si}, double * @var{ci})
+@end deftypefun
+
+
+@deftypefun int sici (double @var{x}, double * @var{si}, double * @var{ci})
+@end deftypefun
+
+
+@deftypefun double simpsn (double @var{f}[], double @var{delta})
+@end deftypefun
+
+
+@deftypefun double spence (double @var{x})
+@end deftypefun
+
+
+@deftypefun double zeta (double @var{x}, double @var{q})
+@end deftypefun
+
+
+@deftypefun double zetac (double @var{x})
+@end deftypefun
+
+@c page
+@node polyn
+@chapter Module @code{polyn}
+
+
+@deftp {Struct Typedef} cmplx
+Represents a complex number in a format compatible with C99 type
+@code{double comples}.  It has the following fields:
+
+@table @code
+@item double r
+The real part.
+
+@item double i
+The imaginary part.
+@end table
+@end deftp
+
+
+@deftypefun void polini (int @var{maxdeg})
+@end deftypefun
+
+
+@deftypefun void polprt (double @var{a}[], int @var{na}, int @var{d})
+@end deftypefun
+
+
+@deftypefun void polclr (double * @var{a}, int @var{n})
+@end deftypefun
+
+
+@deftypefun void polmov (double * @var{a}, double * @var{b}, int @var{na})
+@end deftypefun
+
+
+@deftypefun void polmul (double @var{a}[], double @var{b}[], double @var{c}[], int @var{na}, int @var{nb})
+@end deftypefun
+
+
+@deftypefun void poladd (double @var{a}[], double @var{b}[], double @var{c}[], int @var{na}, int @var{nb})
+@end deftypefun
+
+
+@deftypefun void polsub (double @var{a}[], double @var{b}[], double @var{c}[], int @var{na}, int @var{nb})
+@end deftypefun
+
+
+@deftypefun int poldiv (double @var{a}[], double @var{b}[], double @var{c}[], int @var{na}, int @var{nb})
+@end deftypefun
+
+
+@deftypefun void polsbt (double @var{a}[], double @var{b}[], double @var{c}[], int @var{na}, int @var{nb})
+@end deftypefun
+
+
+@deftypefun double poleva (double @var{a}[], int @var{na}, double @var{x})
+@end deftypefun
+
+
+@deftypefun void polatn (double @var{num}[], double @var{den}[], double @var{ans}[], int @var{nn})
+@end deftypefun
+
+
+@deftypefun void polsqt (double @var{pol}[], double @var{ans}[], int @var{nn})
+@end deftypefun
+
+
+@deftypefun void polsin (double @var{x}[], double ey[], int @var{nn})
+@end deftypefun
+
+
+@deftypefun void polcos (double @var{x}[], double @var{y}[], int @var{nn})
+@end deftypefun
+
+
+@deftypefun int polrt (double @var{xcof}[], double @var{cof}[], int @var{m}, cmplx @var{root}[])
+@end deftypefun
+
+@c page
+@node resources
+@appendix On--line resources
+
+
+The latest version of this package can be downloaded from:
+
+@center @url{http://github.com/marcomaggi/cephes/}
+
+the home page of the Cephes project is at:
+
+@center @url{http://www.netlib.org/cephes/}
+
+the documentation of Cephes is available online:
+
+@center @url{http://www.netlib.org/cephes/doubldoc.html}
+
+the @gnu{} Project software can be found here:
+
+@center @url{http://www.gnu.org/}
+
+@c page
+@node references
+@appendix Bibliography and references
+
+
+
+@c page
+@node concept index
+@appendix An entry for each concept
+
+@printindex cp
+
+@node function index
+@appendix An entry for each function.
+
+@printindex fn
+
+@node variable index
+@appendix An entry for each variable.
+
+@printindex vr
+
+@node type index
+@appendix An entry for each type.
+
+@printindex tp
+
+@contents
+@bye
+
+@c end of file
