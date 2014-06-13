@@ -27,6 +27,8 @@ the documentation of Cephes is available online:
 Notes for revision 0.1d0
 ------------------------
 
+* Most likely some adjustments are needed.
+
 * The  directory  "scheme"  contains  a table  of  functions  in  Scheme
   symbolic expression form and a  demo program that automatically builds
   a Vicare Scheme binding for Cephes.   It should be easily adaptable to
