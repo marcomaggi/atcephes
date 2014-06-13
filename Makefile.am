@@ -19,6 +19,17 @@ AM_MAKEINFOFLAGS	= --no-split
 info_TEXINFOS		= doc/cephes.texi
 doc_cephes_TEXINFOS	= doc/macros.texi
 
+## --------------------------------------------------------------------
+
+EXTRA_DIST		+=
+	scheme/Makefile			\
+	scheme/process.sps		\
+	scheme/table.scm		\
+	\
+	scheme/cephes.sls		\
+	scheme/cephes/compat.vicare.sls	\
+	scheme/test-vicare.sps
+
 #page
 #### libraries
 
