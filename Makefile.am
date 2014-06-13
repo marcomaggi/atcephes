@@ -21,7 +21,7 @@ doc_cephes_TEXINFOS	= doc/macros.texi
 
 ## --------------------------------------------------------------------
 
-EXTRA_DIST		+=
+EXTRA_DIST		+= \
 	scheme/Makefile			\
 	scheme/process.sps		\
 	scheme/table.scm		\
