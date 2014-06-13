@@ -1,0 +1,42 @@
+Subject: [announce] ATCephes revision 0.1d0
+
+		  Cephes functions under GNU Autotools
+		  ====================================
+
+
+Cephes  is a  collection  of mathematical  routines  for scientific  and
+engineering applications.   This package  installs a C  language library
+collecting the Cephes functions for the type "double".
+
+  The package  makes use  of the  GNU Autotools  and it  is tested  on a
+GNU+Linux system.
+
+  The latest version of this package can be downloaded from:
+
+		 <http://github.com/marcomaggi/cephes/>
+
+the home page of the Cephes project is at:
+
+		    <http://www.netlib.org/cephes/>
+
+the documentation of Cephes is available online:
+
+	      <http://www.netlib.org/cephes/doubldoc.html>
+
+
+Notes for revision 0.1d0
+------------------------
+
+* The  directory  "scheme"  contains  a table  of  functions  in  Scheme
+  symbolic expression form and a  demo program that automatically builds
+  a Vicare Scheme binding for Cephes.   It should be easily adaptable to
+  other Scheme implementations.
+
+
+### end of file
+# Local Variables:
+# coding: utf-8-unix
+# mode: text
+# fill-column: 72
+# paragraph-start: "*"
+# End:

@@ -1,0 +1,141 @@
+
+		  Cephes functions under GNU Autotools
+		  ====================================
+
+
+Topics
+------
+
+  1. Introduction
+  2. License
+  3. Install
+  4. Usage
+  A. Credits
+  B. Bugs
+  C. Resources
+
+
+1. Introduction
+---------------
+
+Cephes  is a  collection  of mathematical  routines  for scientific  and
+engineering applications.   This package  installs a C  language library
+collecting the Cephes functions for the type "double".
+
+  The package  makes use  of the  GNU Autotools  and it  is tested  on a
+GNU+Linux system.
+
+
+2. License
+----------
+
+Some software in this archive may be from the book _Methods and Programs
+for  Mathematical   Functions_  (Prentice-Hall   or  Simon   &  Schuster
+International,  1989)  or  from   the  Cephes  Mathematical  Library,  a
+commercial product.  In either event,  it is copyrighted by  the author.
+What you  see here may be  used freely but  it comes with no  support or
+guarantee.
+
+  The two  known misprints in the  book are repaired here  in the source
+listings for the gamma function and the incomplete beta integral.
+
+   Stephen L. Moshier
+   moshier@na-net.ornl.gov
+
+
+3. Install
+----------
+
+To install from a proper release tarball, do this:
+
+    $ cd cephes-0.1.0
+    $ mkdir build
+    $ cd build
+    $ ../configure
+    $ make
+    $ make check
+    $ make install
+
+to inspect the available configuration options:
+
+    $ ../configure --help
+
+  From  a repository  checkout or  snapshot  (the ones  from the  Github
+site): we  must install the  GNU Autotools (GNU Automake,  GNU Autoconf,
+GNU Libtool),  then we must first  run the script "autogen.sh"  from the
+top source directory, to generate the needed files:
+
+    $ cd cephes
+    $ sh autogen.sh
+
+we  should   now  see   the  executable   "configure"  script   and  the
+"Makefile.in" file.  From now on everything  is the same as for building
+from a proper release tarball, but we have to run the "configure" script
+enabling the maintainer mode:
+
+    $ ../configure --enable-maintainer-mode [options]
+    $ make
+    $ make check
+    $ make install
+
+  The  Makefile supports  the  DESTDIR environment  variable to  install
+files in a temporary location, example: to see what will happen:
+
+    $ make -n install DESTDIR=/tmp/cephes
+
+to really do it:
+
+    $ make install DESTDIR=/tmp/cephes
+
+  After the installation it is  possible to verify the installed library
+against the test suite with:
+
+    $ make installcheck
+
+
+4. Usage
+--------
+
+Read the documentation.
+
+
+A. Credits
+----------
+
+The repackaging under GNU Autotools is by Marco Maggi.  See the original
+code.
+
+
+B. Bugs
+-------
+
+Bug reports about the repackaging  are appreciated, register them at the
+Issue Tracker at the project's Github site.
+
+
+C. Resources
+------------
+
+The latest version of this package can be downloaded from:
+
+		 <http://github.com/marcomaggi/cephes/>
+
+the home page of the Cephes project is at:
+
+		    <http://www.netlib.org/cephes/>
+
+the documentation of Cephes is available online:
+
+	      <http://www.netlib.org/cephes/doubldoc.html>
+
+the GNU Project software can be found here:
+
+			 <http://www.gnu.org/>
+
+
+### end of file
+# Local Variables:
+# coding: utf-8-unix
+# mode: text
+# fill-column: 72
+# End:
