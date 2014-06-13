@@ -35,6 +35,8 @@ lib_LTLIBRARIES		= libcephes.la
 libcephes_la_LDFLAGS	= -version-info $(cephes_CURRENT):$(cephes_REVISION):$(cephes_AGE)
 libcephes_la_LIBADD	= $(MATH_LIBS)
 libcephes_la_SOURCES	= \
+	src/custom/isfinite.c		\
+	\
 	src/cmath/chbevl.c		\
 	src/cmath/const.c		\
 	src/cmath/drand.c		\
@@ -117,26 +119,10 @@ libcephes_la_SOURCES	= \
 	src/misc/zeta.c			\
 	src/misc/zetac.c		\
 	\
-	src/remes/remes.h		\
-	src/remes/remesa.c		\
-	src/remes/remese.c		\
-	src/remes/remesf.c		\
-	src/remes/remesg.c		\
-	src/remes/remesp.c		\
-	src/remes/remess.c		\
-	src/remes/remesw.c		\
-	src/remes/simq.c		\
-	\
 	src/polyn/euclid.c		\
 	src/polyn/polmisc.c		\
 	src/polyn/polrt.c		\
 	src/polyn/polyn.c
-
-
-# src/ode/adams3.c
-# src/ode/int.h
-# src/ode/rungek.c
-# src/ode/ssystem.c
 
 ## --------------------------------------------------------------------
 
@@ -223,19 +209,38 @@ EXTRA_DIST	+= \
 EXTRA_DIST	+= \
 	src/polyn/polyr.c
 
+# Is there some interest in including these?
+EXTRA_DIST	+= \
+	src/ode/adams3.c		\
+	src/ode/int.h			\
+	src/ode/rungek.c		\
+	src/ode/ssystem.c
+
+# What should I do about these?
+EXTRA_DIST	+= \
+	src/remes/remes.h		\
+	src/remes/remesa.c		\
+	src/remes/remese.c		\
+	src/remes/remesf.c		\
+	src/remes/remesg.c		\
+	src/remes/remesp.c		\
+	src/remes/remess.c		\
+	src/remes/remesw.c		\
+	src/remes/simq.c
+
 #page
 #### tests
 
 check_PROGRAMS	= \
-	tests/dtestvec
+	tests/beta
 
 TESTS				= $(check_PROGRAMS)
 
 cephes_tests_cppflags		= -I$(srcdir)/src
 cephes_tests_ldadd		= libcephes.la
 
-tests_dtestvec_CPPFLAGS		= $(cephes_tests_cppflags)
-tests_dtestvec_LDADD		= $(cephes_tests_ldadd)
+tests_beta_CPPFLAGS		= $(cephes_tests_cppflags)
+tests_beta_LDADD		= $(cephes_tests_ldadd)
 
 installcheck-local: $(TESTS)
 	@for f in $(TESTS); do $(builddir)/$$f; done

@@ -13,6 +13,7 @@ Topics
   A. Credits
   B. Bugs
   C. Resources
+  D. Importing
 
 
 1. Introduction
@@ -131,6 +132,25 @@ the documentation of Cephes is available online:
 the GNU Project software can be found here:
 
 			 <http://www.gnu.org/>
+
+
+D. Importing notes
+------------------
+
+Notes about how the original code has been imported in this package.
+
+* The  functions  in  the  module  "cmath"  expect  "isfinite()"  to  be
+  defined.  The original does not have an implementation for it, but the
+  C99 standard defines a macro.  So a custom module:
+
+     src/custom/isfinite.c
+
+  has been added implementing  a function "cephes_custom_isfinite()" and
+  the following lines have been added to the "mconf.h" files:
+
+     extern int cephes_custom_isfinite (double x);
+     #define isfinite cephes_custom_isfinite
+
 
 
 ### end of file

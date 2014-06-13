@@ -99,6 +99,18 @@ extern "C" {
 
 
 /** --------------------------------------------------------------------
+ ** Type definitions.
+ ** ----------------------------------------------------------------- */
+
+/* Complex numeral.  */
+typedef struct
+{
+  double r;
+  double i;
+} cmplx;
+
+
+/** --------------------------------------------------------------------
  ** Function prototypes.
  ** ----------------------------------------------------------------- */
 
@@ -178,7 +190,130 @@ cephes_decl double ellpk  (double x);
 
 /* ------------------------------------------------------------------ */
 
+cephes_decl void   eclear (unsigned short * x);
+cephes_decl void   emov   (unsigned short * a, unsigned short * b);
+cephes_decl void   eabs   (unsigned short x[]);
+cephes_decl void   eneg   (unsigned short x[]);
+cephes_decl int    eisneg (unsigned short x[]);
+cephes_decl int    eisinf (unsigned short x[]);
+cephes_decl int    eisnan (unsigned short x[]);
+cephes_decl void   einfin (unsigned short *x);
+cephes_decl void   emovi  (unsigned short * a, unsigned short * b);
+cephes_decl void   emovo  (unsigned short * a, unsigned short * b);
+cephes_decl void   ecleaz (unsigned short * xi);
+cephes_decl void   ecleazs (unsigned short *xi);
+cephes_decl void   emovz  (unsigned short * a, unsigned short * b);
+cephes_decl int    eiisnan (unsigned short x[]);
+cephes_decl int    ecmpm  (unsigned short * a, unsigned short * b);
+cephes_decl void   eshdn1 (unsigned short * x);
+cephes_decl void   eshup1 (unsigned short * x);
+cephes_decl void   eshdn8 (unsigned short * x);
+cephes_decl void   eshup8 (unsigned short * x);
+cephes_decl void   eshup6 (unsigned short * x);
+cephes_decl void   eshdn6 (unsigned short * x);
+cephes_decl void   eaddm  (unsigned short * x, unsigned short * y);
+cephes_decl void   esubm  (unsigned short * x, unsigned short * y);
+cephes_decl int    edivm  (unsigned short den[], unsigned short num[]);
+cephes_decl int    emulm  (unsigned short a[], unsigned short b[]);
+cephes_decl void   emdnorm (unsigned short s, int lost, int subflg,
+			    long exp, int rcntrl);
+cephes_decl void   esub   (unsigned short * a, unsigned short * b,
+			   unsigned short * c);
+cephes_decl void   eadd   (unsigned short * a, unsigned short * b,
+			   unsigned short * c);
+cephes_decl void   eadd1  (unsigned short * a, unsigned short * b,
+			   unsigned short * c);
+cephes_decl void   ediv   (unsigned short * a, unsigned short * b,
+			   unsigned short * c);
+cephes_decl void   emul   (unsigned short * a, unsigned short * b,
+			   unsigned short * c);
+cephes_decl void   e53toe (unsigned short * pe, unsigned short * y);
+cephes_decl void   e64toe (unsigned short * pe, unsigned short * y);
+cephes_decl void   e113toe (unsigned short * pe, unsigned short * y);
+cephes_decl void   e24toe (unsigned short * pe, unsigned short * y);
+cephes_decl void   etoe113 (unsigned short * x, unsigned short * e);
+cephes_decl void   etoe64 (unsigned short * x, unsigned short * e);
+cephes_decl void   etoe53 (unsigned short * x, unsigned short * e);
+cephes_decl void   etoe24 (unsigned short * x, unsigned short * e);
+cephes_decl int    ecmp   (unsigned short * a, unsigned short * b);
+cephes_decl void   eround (unsigned short * x, unsigned short * y);
+cephes_decl void   ltoe   (long * lp, unsigned short * y);
+cephes_decl void   ultoe  (unsigned long *lp, unsigned short *y);
+cephes_decl void   eifrac (unsigned short *x, long *i, unsigned short *frac);
+cephes_decl void   euifrac (unsigned short *x, unsigned long *i, unsigned short *frac);
+cephes_decl int    eshift (unsigned short *x, int sc);
+cephes_decl int    enormlz (unsigned short x[]);
+cephes_decl void   e24toasc (unsigned short x[], char *string, int ndigs);
+cephes_decl void   e53toasc (unsigned short x[], char *string, int ndigs);
+cephes_decl void   e64toasc (unsigned short x[], char *string, int ndigs);
+cephes_decl void   e113toasc (unsigned short x[], char *string, int ndigs);
+cephes_decl void   etoasc (unsigned short x[], char *string, int ndigs);
+cephes_decl void   asctoe24 (char *s, unsigned short *y);
+cephes_decl void   asctoe53 (char *s, unsigned short *y);
+cephes_decl void   asctoe64 (char *s, unsigned short *y);
+cephes_decl void   asctoe113 (char *s, unsigned short *y);
+cephes_decl void   asctoe (char *s, unsigned short *y);
+cephes_decl void   asctoeg (char *ss, unsigned short *y, int oprec);
+cephes_decl void   efloor (unsigned short x[], unsigned short y[]);
+cephes_decl void   efrexp (unsigned short x[], long *exp, unsigned short s[]);
+cephes_decl void   eldexp (unsigned short x[], long pwr2, unsigned short y[]);
+cephes_decl void   eremain (unsigned short a[], unsigned short b[],
+			    unsigned short c[]);
+cephes_decl void   eiremain (unsigned short den[], unsigned short num[]);
+cephes_decl void   enan (unsigned short *nan, int size);
+cephes_decl void   esqrt (short *x, short *y);
 
+cephes_decl void   eexp   (unsigned short * x, unsigned short * y);
+cephes_decl void   epow   (unsigned short * x, unsigned short * y,
+			   unsigned short * z);
+cephes_decl void   epowi  (unsigned short x[], unsigned short y[],
+			   unsigned short z[]);
+cephes_decl void   etodec (unsigned short * x, unsigned short * d);
+cephes_decl void   dectoe (unsigned short * d, unsigned short * e);
+
+/* ------------------------------------------------------------------ */
+
+cephes_decl double beta (double a, double b);
+cephes_decl double dawsn (double xx);
+cephes_decl double ei (double x);
+cephes_decl double expn (int n, double x);
+cephes_decl double fac (int i);
+cephes_decl int    fresnl (double xxa, double * ssa, double * cca);
+cephes_decl double plancki (double w, double T);
+cephes_decl double polylog (int n, double x);
+cephes_decl void   revers (double y[], double x[], int n);
+cephes_decl double rgamma (double x);
+cephes_decl int    shichi (double x, double * si, double * ci);
+cephes_decl int    sici (double x, double *si, double *ci);
+cephes_decl double simpsn (double f[], double delta);
+cephes_decl double spence (double x);
+cephes_decl double zeta (double x, double q);
+cephes_decl double zetac (double x);
+
+/* ------------------------------------------------------------------ */
+
+cephes_decl void   polini (int maxdeg);
+cephes_decl void   polprt (double a[], int na, int d);
+cephes_decl void   polclr (double *a, int n);
+cephes_decl void   polmov (double *a, double *b, int na);
+cephes_decl void   polmul (double a[], double b[], double c[],
+			   int na, int nb);
+cephes_decl void   poladd (double a[], double b[], double c[],
+			   int na, int nb);
+cephes_decl void   polsub (double a[], double b[], double c[],
+			   int na, int nb);
+cephes_decl int    poldiv (double a[], double b[], double c[],
+			   int na, int nb);
+cephes_decl void   polsbt (double a[], double b[], double c[],
+			   int na, int nb);
+cephes_decl double poleva (double a[], int na, double x);
+
+cephes_decl void   polatn (double num[], double den[], double ans[],
+			   int nn);
+cephes_decl void   polsqt (double pol[], double ans[], int nn);
+cephes_decl void   polsin (double x[], double y[], int nn);
+cephes_decl void   polcos (double x[], double y[], int nn);
+cephes_decl int    polrt  (double xcof[], double cof[], int m, cmplx root[]);
 
 
 /** --------------------------------------------------------------------
